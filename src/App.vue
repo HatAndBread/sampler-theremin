@@ -1,18 +1,38 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div class="app" v-if="isBadBrowser">
+    <h1>Your web browser is not supported 😢 <br> Please update to the latest version of Chrome or Firefox.</h1>
   </div>
-  <router-view/>
+  <div class="app" v-else>
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to="/main-instrument">Play</router-link>
+    </div>
+    <router-view/>
+  </div>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue';
+export default defineComponent({
+  data: function() {
+    return {
+      isBadBrowser: false
+    }
+  },
+  mounted: function() {
+    if (!window.MediaRecorder){
+      this.isBadBrowser = true;
+    }
+  }
+});
+</script>
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
   text-align: center;
   color: #2c3e50;
+  margin: 0;
 }
 
 #nav {
