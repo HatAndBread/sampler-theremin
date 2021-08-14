@@ -1,29 +1,3 @@
-# sampler-theremin
+# sampler-theremin🚧👷‍♀️👷👷🏽‍♂️👷🏿‍♀️🔧🚧🚧👷‍♀️👷👷🏽‍♂️👷🏿‍♀️🔧🚧🚧👷‍♀️👷👷🏽‍♂️👷🏿‍♀️🔧🚧
 
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Run your unit tests
-```
-yarn test:unit
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+This is going to be a progressive web app that allows you to record audio samples with your devices microphone and manipulate pitch and volume in the manner of a theremin. 🚧👷‍♀️👷👷🏽‍♂️👷🏿‍♀️🔧🚧
