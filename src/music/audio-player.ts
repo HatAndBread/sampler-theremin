@@ -12,10 +12,10 @@ export default class AudioPlayer {
   setBuffer: (buff: ToneAudioBuffer) => void;
   constructor(buffer: ToneAudioBuffer){
     const options = {
-      attack: 0.3,
-      decay: 0.2,
+      attack: 0.1,
+      decay: 0.1,
       sustain: 1.0,
-      release: 0.3
+      release: 0.1,
     }
     this.envelope = new AmplitudeEnvelope(options).connect(Destination);
     this.envelope2 = new AmplitudeEnvelope(options).connect(Destination);
@@ -30,16 +30,28 @@ export default class AudioPlayer {
       this.buffer = buff;
       this.player.buffer = buff;
       this.player2.buffer = buff;
+      this.player.fadeIn = 0.3;
+      this.player.fadeOut = 0.1;
+      this.player2.fadeIn = 0.1;
+      this.player2.fadeOut = 0.3;
       this.player.start();
-      setTimeout(() => this.player2.start(), 300);
+      this.player2.start();
     };
     this.setBuffer(buffer);
     this.play = () => {
       if (!this.buffer) return console.warn('buffer is not initialized');
-      this.currentPlayerNumber ? this.currentPlayerNumber = 0 : this.currentPlayerNumber = 1;
-      const notPlayingPlayerNumber = this.currentPlayerNumber ? 0 : 1;
-      this.envelopes[notPlayingPlayerNumber].triggerRelease();
+      const alternatePlayers = () => {
+        const notPlayingPlayerNumber = this.currentPlayerNumber ? 0 : 1;
+        this.players[notPlayingPlayerNumber].restart();
+        this.envelopes[notPlayingPlayerNumber].triggerAttack();
+        setTimeout(()=>{
+          this.envelopes[this.currentPlayerNumber].triggerRelease();
+          this.currentPlayerNumber ? this.currentPlayerNumber = 0 : this.currentPlayerNumber = 1;
+          setTimeout(alternatePlayers, (this.buffer.duration * 1000) - 200);
+        }, 100);
+      }
       this.envelopes[this.currentPlayerNumber].triggerAttack();
+      setTimeout(alternatePlayers, (this.buffer.duration * 1000) - 200);
     }
   }
 }

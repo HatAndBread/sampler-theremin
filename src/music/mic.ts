@@ -36,8 +36,19 @@ export const stopMic = async () => {
     const url = URL.createObjectURL(recording);
     const buff = new ToneAudioBuffer(url, () => {
       // @ts-ignore
-      const buffArray = buff.toMono().toArray().filter(i => i); // remove silence
-      //const trimmedBuff = buff.slice(1, buff.duration);
+      let buffArray = buff.toMono().toArray();
+      console.log(buffArray);
+      if (buffArray[0]){ // remove silence for firefox
+        // @ts-ignore
+        buffArray = buffArray.filter(i => !(i > 0 && i < 0.000001));
+        // @ts-ignore
+        buffArray = buffArray.filter(i => !(i < 0 && i > -0.000001));
+        console.log('hey ho!')
+      }else{
+        // @ts-ignore
+        buffArray = buffArray.filter(i => i); // remove silence
+      }
+      console.log(buffArray);
       buff.fromArray(buffArray)
       console.log(buff, 'this is buf!')
       const ap = new AudioPlayer(buff);
